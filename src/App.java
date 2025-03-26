@@ -23,6 +23,7 @@ public class App {
         boolean salir = false;
 
         do {
+            teclado.nextLine(); // limpiamos buffer
             System.out.println("Ruta de la carpeta seleccionada: ");
             System.out.println("Contenido de la carpeta seleccionada: ");
             System.out.println("Fichero seleccionado: ");
