@@ -31,7 +31,7 @@ public class Coche {
         this.modelo = modelo;
     }
 
-    public int getAño() {
+    public int getAnio() {
         return anio;
     }
 
@@ -56,3 +56,4 @@ public class Coche {
     }
 
 }
+
