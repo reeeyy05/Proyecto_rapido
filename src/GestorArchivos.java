@@ -1,12 +1,15 @@
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 public class GestorArchivos {
 
     private static String carpetaSeleccionada = "";
     private static String archivoSeleccionado = "";
-  //  private static List<Coches> coches = new HashMap<>();
+    private List<Map<String, String>> datos = new ArrayList<>();
 
     public static void mostrarContenidoCarpeta() {
         File carpeta = new File(carpetaSeleccionada);
@@ -34,29 +37,32 @@ public class GestorArchivos {
         }
     }
 
-    public static void leerFichero(Scanner te) {
-        // Verificamos si hemos seleccionado una carpeta
+    /*public void leerArchivo(Scanner sc) {
         if (carpetaSeleccionada == null) {
-            System.out.println("Primero debe seleccionar una carpeta");
+            System.out.println("Tienes que seleccionar una carpeta");
         }
 
-        System.out.print("Introduzca el nombre del fichero");
-        String nombreFichero = te.nextLine();
-        File fichero = new File(carpetaSeleccionada, nombreFichero);
+        System.out.print("Introduzca el nombre del archivo a leer: ");
+        String nombreArchivo = sc.nextLine();
+        File archivo = new File(carpetaSeleccionada, nombreArchivo);
 
-        if (!fichero.exists()) {
-            System.out.println("El fichero no existe");
+        if (!archivo.exists()) {
+            System.out.println("El archivo no existe");
         }
 
-       /* try (BufferedReader lector = new BufferedReader(new FileReader(fichero))) {
-            String linea;
-            while ((linea == lector.readLine()) != null) {
+        String extensionArchivo = obtenerExtension(archivo.getName());
+        switch (extensionArchivo) {
+            case "xml" -> ArchivoXML.leer(archivo);
+            case "csv" -> ArchivoCSV.leer(archivo);
+            case "json" -> ArchivoJSON.leer(archivo);
+            default -> System.out.println("Extension archivo no aceptada");
+        }
+    }*/
 
-            }
-
-        } catch (IOException e) {
-            System.out.println("Error leyendo o escribiendo el archivo: " + e.getMessage());
-        }*/
-
+    public String obtenerExtension(String nombreArchivo) {
+        // Buscamos la ultima posicion del indice
+        int indice = nombreArchivo.lastIndexOf('.');
+        //Verificamos que el indice es mayor a 0
+        return (indice > 0) ? nombreArchivo.substring(indice + 1).toLowerCase() : "";
     }
 }
