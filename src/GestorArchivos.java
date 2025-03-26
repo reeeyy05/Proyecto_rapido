@@ -1,12 +1,15 @@
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 public class GestorArchivos {
 
     private static String carpetaSeleccionada = "";
     private static String archivoSeleccionado = "";
-  //  private static List<Coches> coches = new HashMap<>();
+    private List<Map<String, String>> datos = new ArrayList<>();
 
     public static void mostrarContenidoCarpeta() {
         File carpeta = new File(carpetaSeleccionada);
