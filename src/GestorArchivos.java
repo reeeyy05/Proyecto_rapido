@@ -1,5 +1,4 @@
 
-import com.sun.source.doctree.ReturnTree;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +37,7 @@ public class GestorArchivos {
         }
     }
 
-    public void leerArchivo(Scanner sc) {
+    /*public void leerArchivo(Scanner sc) {
         if (carpetaSeleccionada == null) {
             System.out.println("Tienes que seleccionar una carpeta");
         }
@@ -58,7 +57,7 @@ public class GestorArchivos {
             case "json" -> ArchivoJSON.leer(archivo);
             default -> System.out.println("Extension archivo no aceptada");
         }
-    }
+    }*/
 
     public String obtenerExtension(String nombreArchivo) {
         // Buscamos la ultima posicion del indice
