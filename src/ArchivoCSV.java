@@ -13,7 +13,7 @@ import java.util.Set;
 
 public class ArchivoCSV {
 
-    private static  List<Map<String, String>> datos;
+    private static List<Map<String, String>> datos;
 
     public ArchivoCSV() {
         this.datos = new ArrayList<>();

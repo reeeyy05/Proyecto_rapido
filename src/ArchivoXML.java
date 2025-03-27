@@ -11,33 +11,38 @@ import java.util.List;
 import java.util.Map;
 
 public class ArchivoXML {
-    private static List<Map<String, String>> datos = new ArrayList<>();
+
+    private static List<Map<String, String>> datos; 
     
-        public static List<Map<String, String>> LeerXML(File archivo) {
-            try (BufferedReader br = new BufferedReader(new FileReader(archivo))) {
-                String linea;
-                Map<String, String> mapa = new HashMap<>();
-                String clave = null;
-    
-                while ((linea = br.readLine()) != null) {
-                    linea = linea.trim();
-                    if (linea.startsWith("<coche>")) {
-                        mapa = new HashMap<>();
-                    } else if (linea.startsWith("</coche>")) {
-                        if (mapa != null) {
-                         datos.add(mapa);
-                    }
-                } else if (mapa != null && linea.startsWith("<") && linea.endsWith(">")) {
-                    clave = linea.substring(1, linea.indexOf(">"));
-                } else if (clave != null) {
-                    mapa.put(clave, linea);
-                    clave = null;
-                }
-            }
-        } catch (IOException e) {
-            System.out.println("Eror al leer el archivo: " + e.getMessage());
+        public ArchivoXML() {
+            this.datos = new ArrayList<>();
         }
-        return datos;
+        
+            public static List<Map<String, String>> LeerXML(File archivo) {
+                try (BufferedReader br = new BufferedReader(new FileReader(archivo))) {
+                    String linea;
+                    Map<String, String> mapa = new HashMap<>();
+                    String clave = null;
+        
+                    while ((linea = br.readLine()) != null) {
+                        linea = linea.trim();
+                        if (linea.startsWith("<coche>")) {
+                            mapa = new HashMap<>();
+                        } else if (linea.startsWith("</coche>")) {
+                            if (mapa != null) {
+                             datos.add(mapa);
+                        }
+                    } else if (mapa != null && linea.startsWith("<") && linea.endsWith(">")) {
+                        clave = linea.substring(1, linea.indexOf(">"));
+                    } else if (clave != null) {
+                        mapa.put(clave, linea);
+                        clave = null;
+                    }
+                }
+            } catch (IOException e) {
+                System.out.println("Eror al leer el archivo: " + e.getMessage());
+            }
+            return datos;
     }
 
     public static void escribirXML(File archivo, List<Map<String, String>> datos) {
