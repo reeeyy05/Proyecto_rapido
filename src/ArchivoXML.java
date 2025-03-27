@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Map;
 
 public class ArchivoXML {
-
     private static List<Map<String, String>> datos = new ArrayList<>();
 
     public static List<Map<String, String>> LeerXML(File archivo) {
