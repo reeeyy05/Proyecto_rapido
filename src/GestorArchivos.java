@@ -9,7 +9,8 @@ public class GestorArchivos {
 
     private static String carpetaSeleccionada = "";
     private static String archivoSeleccionado = "";
-    private List<Map<String, String>> datos = new ArrayList<>();
+
+    private static List<Map<String, String>> datos = new ArrayList<>();
 
     public static void mostrarContenidoCarpeta() {
         File carpeta = new File(carpetaSeleccionada);
@@ -37,7 +38,7 @@ public class GestorArchivos {
         }
     }
 
-    /*public void leerArchivo(Scanner sc) {
+    public void leerArchivo(Scanner sc) {
         if (carpetaSeleccionada == null) {
             System.out.println("Tienes que seleccionar una carpeta");
         }
@@ -52,12 +53,16 @@ public class GestorArchivos {
 
         String extensionArchivo = obtenerExtension(archivo.getName());
         switch (extensionArchivo) {
-            case "xml" -> ArchivoXML.leer(archivo);
-            case "csv" -> ArchivoCSV.leer(archivo);
-            case "json" -> ArchivoJSON.leer(archivo);
-            default -> System.out.println("Extension archivo no aceptada");
+            case "xml" ->
+                ArchivoXML.LeerXML(archivo);
+            case "csv" ->
+                ArchivoCSV.leerCSV(archivo);
+            case "json" ->
+                ArchivoJSON.leerJSON(archivo);
+            default ->
+                System.out.println("Extension archivo no aceptada");
         }
-    }*/
+    }
 
     public String obtenerExtension(String nombreArchivo) {
         // Buscamos la ultima posicion del indice
