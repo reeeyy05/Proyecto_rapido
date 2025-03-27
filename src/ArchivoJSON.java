@@ -1,3 +1,7 @@
+/**
+ * @author Alejandro Rey Tostado y Alberto Garcia Izquierdo
+ */
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;  
 import java.io.File;
@@ -11,9 +15,17 @@ import java.util.Map;
 
 
 public class ArchivoJSON {
+
+    private List<Map<String, String>> datos;
+
+    public ArchivoJSON() {
+        this.datos = new ArrayList<>();
+    }
     // Método para leer un archivo JSON
     public static List<Map<String, String>> leerJSON(File archivo) {
         List<Map<String, String>> lista = new ArrayList<>();
+
+        
         try (BufferedReader br = new BufferedReader(new FileReader(archivo))) {
             String linea;
             Map<String, String> mapa = null;

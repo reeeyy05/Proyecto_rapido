@@ -1,3 +1,6 @@
+/**
+ * @author Alejandro Rey Tostado y Alberto Garcia Izquierdo
+ */
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -12,8 +15,15 @@ import java.util.Map;
 
 public class ArchivoXML {
 
+    private List<Map<String, String>> datos;
+
+    public ArchivoXML() {
+        this.datos = new ArrayList<>();
+    }
+
     public static List<Map<String, String>> LeerXML(File archivo) {
-        List<Map<String, String>> lista = new ArrayList();
+        List<Map<String, String>> lista = new ArrayList<>();
+        
         try (BufferedReader br = new BufferedReader(new FileReader(archivo))) {
             String linea;
             Map<String, String> mapa = new HashMap<>();
