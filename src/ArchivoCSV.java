@@ -12,7 +12,12 @@ import java.util.Map;
 import java.util.Set;
 
 public class ArchivoCSV {
-    private static List<Map<String, String>> datos = new ArrayList<>();
+
+    private static List<Map<String, String>> datos;
+
+    public ArchivoCSV() {
+        this.datos = new ArrayList<>();
+    }
 
     public static void leerCSV(File archivo) {
         try (BufferedReader buffer = new BufferedReader(new FileReader(archivo))) {
@@ -34,7 +39,7 @@ public class ArchivoCSV {
 
     public void escribirCSV(File rutaArchivo) {
         if (datos.isEmpty()) {
-            System.out.println("No hay datos para escribir en el archivo");
+            System.out.println("No hay datos para escribir en el archivo");            
         }
 
         try (BufferedWriter buffer = new BufferedWriter(new FileWriter(rutaArchivo))) {
@@ -52,7 +57,7 @@ public class ArchivoCSV {
                 buffer.write(String.join(",", valores) + "\n");
                 buffer.newLine();
             }
-
+            
         } catch (IOException e) {
             System.out.println("Error al escribir el archivo CSV: " + e.getMessage());
         }

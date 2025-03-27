@@ -1,5 +1,8 @@
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -70,4 +73,62 @@ public class GestorArchivos {
         //Verificamos que el indice es mayor a 0
         return (indice > 0) ? nombreArchivo.substring(indice + 1).toLowerCase() : "";
     }
+
+    public static void convertirArchivo(Scanner te) {
+        if (archivoSeleccionado.isEmpty()) {
+            System.out.println("Primero debe seleccionar un fichero para convertir");
+            return;
+        }
+
+        System.out.print("Seleccione el formato de salida (csv, json, xml): ");
+        String formato = te.nextLine().toLowerCase();
+        
+        if (!formato.equals("csv") && !formato.equals("json") && !formato.equals("xml")) {
+            System.out.println("Formato no válido");
+            return;
+        }
+
+        System.out.print("Introduzca el nombre del archivo de salida (sin extensión): ");
+        String nombreSalida = te.nextLine();
+        File archivoSalida = new File(carpetaSeleccionada, nombreSalida + "." + formato);
+
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(archivoSalida))) {
+            if (formato.equals("csv")) {
+                for (Map<String, String> fila : datos) {
+                    bw.write(String.join(",", fila.values()));
+                    bw.newLine();
+                }
+            } else if (formato.equals("json")) {
+                bw.write("[\n");
+                for (int i = 0; i < datos.size(); i++) {
+                    bw.write("  {\n");
+                    int j = 0;
+                    for (Map.Entry<String, String> entry : datos.get(i).entrySet()) {
+                        bw.write("    \"" + entry.getKey() + "\": \"" + entry.getValue() + "\"");
+                        if (j < datos.get(i).size() - 1) bw.write(",");
+                        bw.newLine();
+                        j++;
+                    }
+                    bw.write("  }");
+                    if (i < datos.size() - 1) bw.write(",");
+                    bw.newLine();
+                }
+                bw.write("]");
+            } else if (formato.equals("xml")) {
+                bw.write("<datos>\n");
+                for (Map<String, String> fila : datos) {
+                    bw.write("  <registro>\n");
+                    for (Map.Entry<String, String> entry : fila.entrySet()) {
+                        bw.write("    <" + entry.getKey() + ">" + entry.getValue() + "</" + entry.getKey() + ">\n");
+                    }
+                    bw.write("  </registro>\n");
+                }
+                bw.write("</datos>");
+            }
+            System.out.println("Archivo convertido con éxito: " + archivoSalida.getAbsolutePath());
+        } catch (IOException e) {
+            System.out.println("Error al escribir el archivo: " + e.getMessage());
+        }
+    }
+    
 }
