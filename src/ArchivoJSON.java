@@ -1,9 +1,10 @@
+
 /**
  * @author Alejandro Rey Tostado y Alberto Garcia Izquierdo
  */
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;  
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -13,19 +14,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
 public class ArchivoJSON {
-
-    private List<Map<String, String>> datos;
-
-    public ArchivoJSON() {
-        this.datos = new ArrayList<>();
-    }
+    private static  List<Map<String, String>> datos = new ArrayList<>();
+    
     // Método para leer un archivo JSON
     public static List<Map<String, String>> leerJSON(File archivo) {
-        List<Map<String, String>> lista = new ArrayList<>();
 
-        
         try (BufferedReader br = new BufferedReader(new FileReader(archivo))) {
             String linea;
             Map<String, String> mapa = null;
@@ -36,7 +30,9 @@ public class ArchivoJSON {
                 if (linea.equals("{")) {
                     mapa = new HashMap<>();
                 } else if (linea.equals("}")) {
-                    if (mapa != null) lista.add(mapa);
+                    if (mapa != null) {
+                        datos.add(mapa);
+                    }
                 } else if (mapa != null && linea.contains(":")) {
                     String[] partes = linea.replace("\"", "").split(":");
                     if (partes.length == 2) {
@@ -47,24 +43,28 @@ public class ArchivoJSON {
         } catch (IOException e) {
             System.out.println("Error al leer el archivo JSON: " + e.getMessage());
         }
-        return lista;
+        return datos;
     }
 
     // Método para escribir un archivo JSON
-    public static void escribirJSON(File archivo, List<Map<String, String>> lista) {
+    public static void escribirJSON(File archivo, List<Map<String, String>> datos) {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(archivo))) {
             bw.write("[\n");
-            for (int i = 0; i < lista.size(); i++) {
+            for (int i = 0; i < datos.size(); i++) {
                 bw.write("  {\n");
-                Map<String, String> mapa = lista.get(i);
+                Map<String, String> mapa = datos.get(i);
                 int j = 0;
                 for (Map.Entry<String, String> entry : mapa.entrySet()) {
                     bw.write("    \"" + entry.getKey() + "\": \"" + entry.getValue() + "\"");
-                    if (++j < mapa.size()) bw.write(",");
+                    if (++j < mapa.size()) {
+                        bw.write(",");
+                    }
                     bw.write("\n");
                 }
                 bw.write("  }");
-                if (i < lista.size() - 1) bw.write(",");
+                if (i < datos.size() - 1) {
+                    bw.write(",");
+                }
                 bw.write("\n");
             }
             bw.write("]");
