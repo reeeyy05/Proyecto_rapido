@@ -12,20 +12,20 @@ import java.util.Map;
 
 public class ArchivoXML {
     private static List<Map<String, String>> datos = new ArrayList<>();
-    
-        public static List<Map<String, String>> LeerXML(File archivo) {
-            try (BufferedReader br = new BufferedReader(new FileReader(archivo))) {
-                String linea;
-                Map<String, String> mapa = new HashMap<>();
-                String clave = null;
-    
-                while ((linea = br.readLine()) != null) {
-                    linea = linea.trim();
-                    if (linea.startsWith("<coche>")) {
-                        mapa = new HashMap<>();
-                    } else if (linea.startsWith("</coche>")) {
-                        if (mapa != null) {
-                         datos.add(mapa);
+
+    public static List<Map<String, String>> LeerXML(File archivo) {
+        try (BufferedReader br = new BufferedReader(new FileReader(archivo))) {
+            String linea;
+            Map<String, String> mapa = new HashMap<>();
+            String clave = null;
+
+            while ((linea = br.readLine()) != null) {
+                linea = linea.trim();
+                if (linea.startsWith("<coche>")) {
+                    mapa = new HashMap<>();
+                } else if (linea.startsWith("</coche>")) {
+                    if (mapa != null) {
+                        datos.add(mapa);
                     }
                 } else if (mapa != null && linea.startsWith("<") && linea.endsWith(">")) {
                     clave = linea.substring(1, linea.indexOf(">"));
