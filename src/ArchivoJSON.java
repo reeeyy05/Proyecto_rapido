@@ -15,22 +15,11 @@ import java.util.List;
 import java.util.Map;
 
 public class ArchivoJSON {
-
-    private List<Map<String, String>> datos;
-
-    public ArchivoJSON() {
-        this.datos = new ArrayList<>();
-    }
-
+    private static  List<Map<String, String>> datos = new ArrayList<>();
+    
     // Método para leer un archivo JSON
     public static List<Map<String, String>> leerJSON(File archivo) {
-        List<Map<String, String>> lista = new ArrayList<>();
-        
 
-    private static List<Map<String, String>> datos = new ArrayList<>();
-
-    // Método para leer un archivo JSON
-    public static List<Map<String, String>> leerJSON(File archivo) {
         try (BufferedReader br = new BufferedReader(new FileReader(archivo))) {
             String linea;
             Map<String, String> mapa = null;
