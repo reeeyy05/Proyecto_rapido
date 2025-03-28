@@ -15,8 +15,8 @@ import java.util.List;
 import java.util.Map;
 
 public class ArchivoJSON {
-    private static  List<Map<String, String>> datos = new ArrayList<>();
-    
+    private static List<Map<String, String>> datos = new ArrayList<>();
+
     // Método para leer un archivo JSON
     public static List<Map<String, String>> leerJSON(File archivo) {
 
@@ -26,7 +26,7 @@ public class ArchivoJSON {
             String clave = null;
 
             while ((linea = br.readLine()) != null) {
-                linea = linea.trim().replace(",", ""); //Elimina las comas
+                linea = linea.trim().replace(",", ""); // Elimina las comas
                 if (linea.equals("{")) {
                     mapa = new HashMap<>();
                 } else if (linea.equals("}")) {
