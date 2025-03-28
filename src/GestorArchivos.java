@@ -86,23 +86,38 @@ public class GestorArchivos {
     }
 
     public void convertirArchivo(Scanner te) {
-        if (archivoSeleccionado.isEmpty()) {
-            System.out.println("Primero debe seleccionar un fichero para convertir");
+        if (carpetaSeleccionada == null || carpetaSeleccionada.isEmpty()) {
+            System.out.println("Primero debe seleccionar una carpeta.");
             return;
         }
-
+    
+        System.out.print("Introduzca el nombre del archivo que desea convertir: ");
+        String nombreArchivo = te.nextLine();
+        File archivo = new File(carpetaSeleccionada, nombreArchivo);
+    
+        if (!archivo.exists()) {
+            System.out.println("El archivo no existe.");
+            return;
+        }
+    
+        String extensionArchivo = obtenerExtension(archivo.getName());
+        if (!extensionArchivo.equals("csv") && !extensionArchivo.equals("json") && !extensionArchivo.equals("xml")) {
+            System.out.println("El archivo no tiene una extensión válida para convertir.");
+            return;
+        }
+    
         System.out.print("Seleccione el formato de salida (csv, json, xml): ");
         String formato = te.nextLine().toLowerCase();
-
+    
         if (!formato.equals("csv") && !formato.equals("json") && !formato.equals("xml")) {
-            System.out.println("Formato no válido");
+            System.out.println("Formato no válido.");
             return;
         }
-
+    
         System.out.print("Introduzca el nombre del archivo de salida (sin extensión): ");
         String nombreSalida = te.nextLine();
         File archivoSalida = new File(carpetaSeleccionada, nombreSalida + "." + formato);
-
+    
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(archivoSalida))) {
             if (formato.equals("csv")) {
                 for (Map<String, String> fila : datos) {
