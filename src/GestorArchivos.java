@@ -1,4 +1,8 @@
 
+/**
+ * @author Alejandro Rey Tostado y Alberto Garcia Izquierdo
+ */
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -10,40 +14,50 @@ import java.util.Scanner;
 
 public class GestorArchivos {
 
-    private static String carpetaSeleccionada = "";
-    private static String archivoSeleccionado = "";
+    public String carpetaSeleccionada = "";
+    public String archivoSeleccionado = "";
 
-    private static List<Map<String, String>> datos = new ArrayList<>();
+    private List<Map<String, String>> datos = new ArrayList<>();
 
-    public static void mostrarContenidoCarpeta() {
+    public void mostrarContenidoCarpeta() {
+        if (carpetaSeleccionada == null || carpetaSeleccionada.isEmpty()) {
+            System.out.println("No se ha seleccionado ninguna carpeta.");
+            return;
+        }
+
         File carpeta = new File(carpetaSeleccionada);
-        String[] archivos = carpeta.list(); // devuelve un array con el nombre de los archivos
+        if (!carpeta.exists() || !carpeta.isDirectory()) {
+            System.out.println("La carpeta seleccionada no es válida.");
+            return;
+        }
 
-        if (archivos != null) {
-            System.out.println("Mostrando el contenido de la carpeta");
+        String[] archivos = carpeta.list();
+        if (archivos != null && archivos.length > 0) {
             for (String archivo : archivos) {
-                System.out.println(" - " + archivo); // lista los archivos de la carpeta
+                System.out.println(" - " + archivo);
             }
+        } else {
+            System.out.println("La carpeta está vacía.");
         }
     }
 
-    public static void seleccionarCarpeta(Scanner te) {
+    public void seleccionarCarpeta(Scanner te) {
         System.out.print("Introduzca la ruta de la carpeta: ");
         String ruta = te.nextLine();
         File carpeta = new File(ruta);
 
         if (carpeta.exists() && carpeta.isDirectory()) {
             carpetaSeleccionada = ruta;
-            System.out.println("La carpeta ha sido seleccionada");
-            mostrarContenidoCarpeta();
+            System.out.println("La carpeta ha sido seleccionada: " + carpetaSeleccionada);
         } else {
-            System.out.println("La ruta ingresada no es valida");
+            System.out.println("La ruta ingresada no es válida.");
         }
     }
 
-    public void leerArchivo(Scanner sc) {
-        if (carpetaSeleccionada == null) {
-            System.out.println("Tienes que seleccionar una carpeta");
+    public void leerFichero(Scanner sc) {
+        if (carpetaSeleccionada == null || carpetaSeleccionada.isEmpty()) {
+            System.out.println("Primero debe seleccionar una carpeta.");
+            return;
         }
 
         System.out.print("Introduzca el nombre del archivo a leer: ");
@@ -51,30 +65,27 @@ public class GestorArchivos {
         File archivo = new File(carpetaSeleccionada, nombreArchivo);
 
         if (!archivo.exists()) {
-            System.out.println("El archivo no existe");
+            System.out.println("El archivo no existe.");
+            return;
         }
 
         String extensionArchivo = obtenerExtension(archivo.getName());
         switch (extensionArchivo) {
-            case "xml" ->
-                ArchivoXML.LeerXML(archivo);
-            case "csv" ->
-                ArchivoCSV.leerCSV(archivo);
-            case "json" ->
-                ArchivoJSON.leerJSON(archivo);
-            default ->
-                System.out.println("Extension archivo no aceptada");
+            case "xml" -> ArchivoXML.LeerXML(archivo);
+            case "csv" -> ArchivoCSV.leerCSV(archivo);
+            case "json" -> ArchivoJSON.leerJSON(archivo);
+            default -> System.out.println("Extensión de archivo no aceptada.");
         }
     }
 
     public String obtenerExtension(String nombreArchivo) {
         // Buscamos la ultima posicion del indice
         int indice = nombreArchivo.lastIndexOf('.');
-        //Verificamos que el indice es mayor a 0
+        // Verificamos que el indice es mayor a 0
         return (indice > 0) ? nombreArchivo.substring(indice + 1).toLowerCase() : "";
     }
 
-    public static void convertirArchivo(Scanner te) {
+    public void convertirArchivo(Scanner te) {
         if (archivoSeleccionado.isEmpty()) {
             System.out.println("Primero debe seleccionar un fichero para convertir");
             return;
@@ -82,7 +93,7 @@ public class GestorArchivos {
 
         System.out.print("Seleccione el formato de salida (csv, json, xml): ");
         String formato = te.nextLine().toLowerCase();
-        
+
         if (!formato.equals("csv") && !formato.equals("json") && !formato.equals("xml")) {
             System.out.println("Formato no válido");
             return;
@@ -105,12 +116,14 @@ public class GestorArchivos {
                     int j = 0;
                     for (Map.Entry<String, String> entry : datos.get(i).entrySet()) {
                         bw.write("    \"" + entry.getKey() + "\": \"" + entry.getValue() + "\"");
-                        if (j < datos.get(i).size() - 1) bw.write(",");
+                        if (j < datos.get(i).size() - 1)
+                            bw.write(",");
                         bw.newLine();
                         j++;
                     }
                     bw.write("  }");
-                    if (i < datos.size() - 1) bw.write(",");
+                    if (i < datos.size() - 1)
+                        bw.write(",");
                     bw.newLine();
                 }
                 bw.write("]");
@@ -130,5 +143,5 @@ public class GestorArchivos {
             System.out.println("Error al escribir el archivo: " + e.getMessage());
         }
     }
-    
+
 }

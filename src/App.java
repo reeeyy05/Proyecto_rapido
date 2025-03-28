@@ -1,3 +1,4 @@
+
 /**
  * @author Alejandro Rey Tostado y Alberto Garcia Izquierdo
  */
@@ -23,15 +24,15 @@ public class App {
         boolean salir = false;
 
         do {
-            teclado.nextLine(); // limpiamos buffer
-            System.out.println("Ruta de la carpeta seleccionada: ");
+            System.out.println("\nRuta de la carpeta seleccionada: " + gestor.carpetaSeleccionada);
+            System.out.println("Fichero seleccionado: " + gestor.archivoSeleccionado);
             System.out.println("Contenido de la carpeta seleccionada: ");
-            System.out.println("Fichero seleccionado: ");
+            gestor.mostrarContenidoCarpeta();
 
             switch (menu()) {
-                case "1" -> {}
-                case "2" -> {}
-                case "3" -> {}
+                case "1" -> gestor.seleccionarCarpeta(teclado);
+                case "2" -> gestor.leerFichero(teclado);
+                case "3" -> gestor.convertirArchivo(teclado);
                 case "0" -> {
                     salir = true;
                     System.out.println("¡¡¡ Hasta pronto !!!");
